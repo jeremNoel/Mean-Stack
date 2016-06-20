@@ -1,3 +1,10 @@
+var express = require('express'); //utiliser express
+var app = express(); // definir utilisation d'express
+var bodyParser = body_parser; //pour les url
+var morgan = require("morgan"); // voir les requetes
+var mongoose = require("mongoosen"); //communiquer une databases
+var port = process.env.PORT || 8080; //definir le ports
+
 {
   "name": "mean",
   "version": "1.0.0",
@@ -12,3 +19,26 @@
     "express": "^4.13.4"
   }
 }
+
+app.use(bodyParser.urlencoded({ 
+  extended: true
+}));
+app.use(bodyParser.json);
+app.use(function(req,res,next){
+   res.setHeader('Access-Control-Allow-Origin', '*');
+   res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, \
+   Authorization');
+ next();
+ });
+);
+
+app.get("/", function(req,res) {
+    res.send("Bienvenue sur ma home Page !");
+});
+
+var apiRouter = express.Router();
+
+apiRouter.get('/api', function(req, res) {
+res.json({ message: 'hooray! welcome to our api!' });
+ });
